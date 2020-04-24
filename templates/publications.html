@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Мой блог - Публикации{% endblock %}
+
+{% block content %}
+    <h2 align ="center">Список публикаций</h2>
+    <p align="center">
+        {% if publications %}
+    <p align="center">
+    Количество публикаций: {{ publications|length }}
+        <table>
+            <tr>
+                <td>Название</td><td>Дата</td>
+            </tr>
+            {% for publication in publications %}
+            <tr>
+                <td><a href="/publication/{{ publication.id }}">{{ publication.name }}</a></td>
+                <td>{{ publication.date }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </p>
+    {% endif %}
+{% endblock %}

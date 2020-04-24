@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Мой блог - {{ number.name }}{% endblock %}
+
+{% block content %}
+
+    <h2 align ="center">Публикация "{{ number.name }}"</h2>
+    <h4>Дата: </h4>
+    <p>{{ number.date }}</p>
+    <h3>Текст: </h3>
+    <p>{{ number.text | safe}}</p>
+
+
+<p align="center" style="color: red">{{  error  }}</p>
+    <br>
+    <h2 align="center">Комментарии</h2>
+    <form method="post" align="center" action="/publication/{{ number.id }}">
+        {% csrf_token %}
+        <input type="text" name="name" placeholder="name"/>
+        <br><br><input type="email" name="email" placeholder="email"/>
+        <br><br><textarea name="text" placeholder="text"></textarea>
+        <br><br><input type="submit" value="Send"/>
+    </form>
+    <br><br>
+    {% if comments %}
+    <p align="center">
+        <table align="center">
+            <tr>
+                <td>Имя</td><td>Email</td><td>Текст</td><td>Дата</td>
+            </tr>
+            {% for comment in comments %}
+                <tr>
+                    <td>{{ comment.name }}</td>
+                    <td><a href="mailto:{{ comment.email }}">{{ comment.email }}</a></td>
+                    <td>{{ comment.text | safe }}</td>
+                    <td>{{ comment.date }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </p>
+    {% endif %}
+
+
+{% endblock %}

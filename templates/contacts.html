@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Мой блог - Контакты{% endblock %}
+{% block content %}
+    <h1 align="center">Контакты</h1>
+    <p align="center">
+        <br><b>Иван Петров</b></br>
+        <br>email: <a href="mailto:ivan.petrov@gmail.com">ivan.petrov@gmail.com</a></br>
+        <br>phone: +7 (999) 999 99 99</br>
+        <br>Москва, Россия</br>
+    </p>
+    <p align="center" style="color: red">{{  error  }}</p>
+    <br>
+    <h2 align="center">Обратная связь</h2>
+    <form method="post" align="center" action="/contacts">
+        {% csrf_token %}
+        <input type="text" name="name" placeholder="name"/>
+        <br><br><input type="email" name="email" placeholder="email"/>
+        <br><br><textarea name="text" placeholder="text"></textarea>
+        <br><br><input type="submit" value="Send"/>
+    </form>
+    <br><br>
+    {% if feedbacks %}
+    <p align="center">
+    Количество отзывов: {{ feedbacks|length }}
+        <table align="center">
+            <tr>
+                <td>Имя</td><td>Email</td><td>Текст</td><td>Дата</td>
+            </tr>
+            {% for feedback in feedbacks %}
+            <tr>
+                <td>{{ feedback.name }}</td>
+                <td><a href="mailto:{{ feedback.email }}">{{ feedback.email }}</a></td>
+                <td>{{ feedback.text | safe }}</td>
+                <td>{{ feedback.date }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </p>
+    {% endif %}
+{% endblock %}
